@@ -1,3 +1,4 @@
+import { NotificationService } from './messages/notification.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
 import { RatingComponent } from './rating/rating.component';
@@ -22,7 +23,7 @@ export class SharedModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: SharedModule,
-            providers: [ShoppingCartService, RestaurantsService, OrderService]
+            providers: [ShoppingCartService, RestaurantsService, OrderService, NotificationService]
         }
     }
 }
