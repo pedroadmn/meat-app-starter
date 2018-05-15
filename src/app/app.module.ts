@@ -1,7 +1,8 @@
+import { ApplicationErrorHandler } from './app.error-handler';
 import { SharedModule } from './shared/shared.module';
 import { ReviewsComponent } from './restaurant-detail/reviews/reviews.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,7 @@ import { MenuItemComponent } from './restaurant-detail/menu-item/menu-item.compo
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './security/login/login.component';
+import { UserDetailComponent } from './header/user-detail/user-detail.component';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { LoginComponent } from './security/login/login.component';
     ReviewsComponent,
     OrderSummaryComponent,
     NotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,8 @@ import { LoginComponent } from './security/login/login.component';
     RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules })
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    { provide: ErrorHandler, useClass: ApplicationErrorHandler }
   ],
   bootstrap: [AppComponent]
 })

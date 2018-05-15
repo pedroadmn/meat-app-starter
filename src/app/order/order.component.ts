@@ -5,6 +5,8 @@ import { RadioOption } from './../shared/radio/radio-option.model';
 import { Component, OnInit } from '@angular/core';
 import { Order, OrderItem } from './order.model';
 
+import 'rxjs/add/operator/do';
+
 import { FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/forms';
 
 @Component({
@@ -16,6 +18,8 @@ export class OrderComponent implements OnInit {
   emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   numberPattern = /^[0-9]*$/;
+
+  orderId: string;
 
   orderForm: FormGroup;
 
@@ -79,15 +83,21 @@ export class OrderComponent implements OnInit {
     this.orderService.remove(item);
   } 
 
+  isOrderCompleted(): boolean {
+    return this.orderId != undefined;
+  }
+
   checkOrder(order: Order) {
     order.orderItems = this.cartItems()
       .map((item: CarItem) => new OrderItem(item.quantity, item.menuItem.id));
     this.orderService.checkOrder(order)
+      .do((orderId: string) => {
+        this.orderId = orderId
+      })
       .subscribe((orderId: string) => {
         this.router.navigate(['/order-summary']);
         this.orderService.clear();
       });
-    console.log(order);
   }
 
 }
